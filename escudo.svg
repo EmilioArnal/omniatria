@@ -39,13 +39,14 @@
       <rect x="63" y="62" width="5" height="8" fill="#2b2412" stroke="none"/>
     </g>
 
-    <!-- 2º cuartel: abejas -->
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 24) scale(0.92)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 24) scale(0.92)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 48) scale(0.92)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 48) scale(0.92)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 72) scale(0.92)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 72) scale(0.92)"/>
+    <!-- 2º cuartel: siete abejas -->
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(118 22) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 22) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(174 22) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(118 49) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 49) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(174 49) scale(0.82)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 77) scale(0.82)"/>
 
     <!-- 3º cuartel: palos de gules -->
     <g fill="#c0392b">
@@ -55,20 +56,9 @@
       <rect x="79.4" y="110" width="10.2" height="130"/>
     </g>
 
-    <!-- 4º cuartel: cruz de gules -->
-    <g fill="#c0392b" stroke="#c0392b">
-      <path d="M152 142 V198" stroke-width="6" stroke-linecap="round"/>
-      <path d="M134 160 H170" stroke-width="6" stroke-linecap="round"/>
-      <path d="M147 196 L152 214 L157 196 Z" stroke-width="1"/>
-      <circle cx="152" cy="137" r="4" stroke="none"/>
-      <circle cx="147.5" cy="141" r="3" stroke="none"/>
-      <circle cx="156.5" cy="141" r="3" stroke="none"/>
-      <circle cx="129" cy="160" r="4" stroke="none"/>
-      <circle cx="133" cy="155.5" r="3" stroke="none"/>
-      <circle cx="133" cy="164.5" r="3" stroke="none"/>
-      <circle cx="175" cy="160" r="4" stroke="none"/>
-      <circle cx="171" cy="155.5" r="3" stroke="none"/>
-      <circle cx="171" cy="164.5" r="3" stroke="none"/>
+    <!-- 4º cuartel: cruz de San Jorge -->
+    <g fill="#c0392b" stroke="#2b2412" stroke-width="1.2">
+      <path d="M142 136 H154 V162 H178 V174 H154 V200 H142 V174 H118 V162 H142 Z"/>
     </g>
 
     <!-- particiones -->
