@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 240">
+  <defs>
+    <clipPath id="esc-recorte">
+      <path d="M8 8 H192 V128 Q192 228 100 232 Q8 228 8 128 Z"/>
+    </clipPath>
+    <pattern id="esc-jaquel" width="10" height="10" patternUnits="userSpaceOnUse" x="84" y="92">
+      <rect width="10" height="10" fill="#e4b528"/>
+      <rect width="5" height="5" fill="#a8751a"/>
+      <rect x="5" y="5" width="5" height="5" fill="#a8751a"/>
+    </pattern>
+    <g id="esc-abeja">
+      <ellipse cx="-5.5" cy="-5" rx="4.5" ry="6.5" transform="rotate(-35 -5.5 -5)" fill="#fbf6e6" stroke="#2b2412" stroke-width="1.2"/>
+      <ellipse cx="5.5" cy="-5" rx="4.5" ry="6.5" transform="rotate(35 5.5 -5)" fill="#fbf6e6" stroke="#2b2412" stroke-width="1.2"/>
+      <ellipse cx="0" cy="3" rx="5.2" ry="8.5" fill="#2b2412"/>
+      <path d="M-5 1 H5 M-4.6 5.5 H4.6" stroke="#e4b528" stroke-width="1.8"/>
+      <circle cx="0" cy="-7" r="3.4" fill="#2b2412"/>
+    </g>
+    <path id="esc-texto" d="M80 132 V88 H120 V132"/>
+  </defs>
+
+  <g clip-path="url(#esc-recorte)">
+    <!-- campo de oro -->
+    <rect x="0" y="0" width="200" height="240" fill="#e4b528"/>
+
+    <!-- 1º cuartel: torre -->
+    <g stroke="#2b2412" stroke-width="1.6">
+      <rect x="34" y="52" width="40" height="46" fill="#a9bddd"/>
+      <rect x="34" y="45" width="7" height="8" fill="#a9bddd"/>
+      <rect x="45" y="45" width="7" height="8" fill="#a9bddd"/>
+      <rect x="56" y="45" width="7" height="8" fill="#a9bddd"/>
+      <rect x="67" y="45" width="7" height="8" fill="#a9bddd"/>
+      <rect x="42" y="30" width="24" height="23" fill="#7f9ccc"/>
+      <rect x="42" y="23" width="6" height="8" fill="#7f9ccc"/>
+      <rect x="51" y="23" width="6" height="8" fill="#7f9ccc"/>
+      <rect x="60" y="23" width="6" height="8" fill="#7f9ccc"/>
+      <path d="M48 98 V84 Q54 76 60 84 V98 Z" fill="#2b2412"/>
+      <rect x="51" y="35" width="6" height="9" fill="#2b2412" stroke="none"/>
+      <rect x="40" y="62" width="5" height="8" fill="#2b2412" stroke="none"/>
+      <rect x="63" y="62" width="5" height="8" fill="#2b2412" stroke="none"/>
+    </g>
+
+    <!-- 2º cuartel: abejas -->
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 24) scale(0.92)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 24) scale(0.92)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 48) scale(0.92)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 48) scale(0.92)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(132 72) scale(0.92)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(170 72) scale(0.92)"/>
+
+    <!-- 3º cuartel: palos de gules -->
+    <g fill="#c0392b">
+      <rect x="18.2" y="110" width="10.2" height="130"/>
+      <rect x="38.6" y="110" width="10.2" height="130"/>
+      <rect x="59" y="110" width="10.2" height="130"/>
+      <rect x="79.4" y="110" width="10.2" height="130"/>
+    </g>
+
+    <!-- 4º cuartel: cruz de gules -->
+    <g fill="#c0392b" stroke="#c0392b">
+      <path d="M152 142 V198" stroke-width="6" stroke-linecap="round"/>
+      <path d="M134 160 H170" stroke-width="6" stroke-linecap="round"/>
+      <path d="M147 196 L152 214 L157 196 Z" stroke-width="1"/>
+      <circle cx="152" cy="137" r="4" stroke="none"/>
+      <circle cx="147.5" cy="141" r="3" stroke="none"/>
+      <circle cx="156.5" cy="141" r="3" stroke="none"/>
+      <circle cx="129" cy="160" r="4" stroke="none"/>
+      <circle cx="133" cy="155.5" r="3" stroke="none"/>
+      <circle cx="133" cy="164.5" r="3" stroke="none"/>
+      <circle cx="175" cy="160" r="4" stroke="none"/>
+      <circle cx="171" cy="155.5" r="3" stroke="none"/>
+      <circle cx="171" cy="164.5" r="3" stroke="none"/>
+    </g>
+
+    <!-- particiones -->
+    <path d="M100 0 V240 M0 110 H200" stroke="#2b2412" stroke-width="2"/>
+  </g>
+
+  <!-- escusón con el lema -->
+  <path d="M76 84 H124 V112 Q124 136 100 138 Q76 136 76 112 Z" fill="#fbf6e6" stroke="#2b2412" stroke-width="1.8"/>
+  <path d="M84 92 H116 V112 Q116 128 100 130 Q84 128 84 112 Z" fill="url(#esc-jaquel)" stroke="#2b2412" stroke-width="1.4"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="6.6" font-weight="700" fill="#2b2412" letter-spacing="0.6">
+    <textPath href="#esc-texto" xlink:href="#esc-texto" startOffset="50%" text-anchor="middle">CIRCUM · LONGE</textPath>
+  </text>
+
+  <!-- contorno -->
+  <path d="M8 8 H192 V128 Q192 228 100 232 Q8 228 8 128 Z" fill="none" stroke="#2b2412" stroke-width="3.5"/>
+</svg>
