@@ -39,14 +39,13 @@
       <rect x="63" y="62" width="5" height="8" fill="#2b2412" stroke="none"/>
     </g>
 
-    <!-- 2º cuartel: siete abejas -->
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(118 22) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 22) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(174 22) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(118 49) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 49) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(174 49) scale(0.82)"/>
-    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(146 77) scale(0.82)"/>
+    <!-- 2º cuartel: seis abejas volando en diagonal -->
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(112 70) rotate(40) scale(0.8)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(134 47) rotate(40) scale(0.8)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(156 24) rotate(40) scale(0.8)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(136 92) rotate(40) scale(0.8)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(158 69) rotate(40) scale(0.8)"/>
+    <use href="#esc-abeja" xlink:href="#esc-abeja" transform="translate(180 46) rotate(40) scale(0.8)"/>
 
     <!-- 3º cuartel: palos de gules -->
     <g fill="#c0392b">
@@ -56,7 +55,8 @@
       <rect x="79.4" y="110" width="10.2" height="130"/>
     </g>
 
-    <!-- 4º cuartel: cruz de San Jorge -->
+    <!-- 4º cuartel: cruz de San Jorge sobre plata -->
+    <path d="M100 110 H200 V240 H100 Z" fill="#fbfaf5"/>
     <g fill="#c0392b" stroke="#2b2412" stroke-width="1.2">
       <path d="M142 136 H154 V162 H178 V174 H154 V200 H142 V174 H118 V162 H142 Z"/>
     </g>
