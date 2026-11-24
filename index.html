@@ -421,6 +421,17 @@ document.getElementById("lema-sitio").textContent = SITIO.lema;
 document.getElementById("pie-texto").textContent = "© " + new Date().getFullYear() + " " + SITIO.nombre + " · Circum longe.";
 window.addEventListener("hashchange", mostrar);
 mostrar();
+
+/* Estadísticas de visitas (GoatCounter): cuenta cada artículo y cada tema por separado. */
+function contarVisita() {
+  if (!window.goatcounter || !window.goatcounter.count) return;
+  const ruta = location.hash.length > 1 ? "/" + decodeURIComponent(location.hash.slice(1)) : "/";
+  window.goatcounter.count({ path: ruta, title: document.title });
+}
+window.addEventListener("hashchange", contarVisita);
 </script>
+<script data-goatcounter="https://omniatria.goatcounter.com/count"
+        data-goatcounter-settings='{"no_onload": true}'
+        async src="https://gc.zgo.at/count.js" onload="contarVisita()"></script>
 </body>
 </html>
