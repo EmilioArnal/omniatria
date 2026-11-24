@@ -120,7 +120,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .vacio { color: var(--tinta-suave); font-style: italic; }
 
 /* Artículo */
-.articulo { max-width: 760px; margin: 0 auto; padding: 36px 0 64px; }
+.articulo { max-width: 860px; margin: 0 auto; padding: 36px 0 64px; }
 .volver { font-family: var(--display); font-size: 0.95rem; color: var(--tinta-suave); text-decoration: none; display: inline-block; margin-bottom: 24px; }
 .volver:hover { color: var(--acento); }
 .articulo h1 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); font-weight: 800; letter-spacing: -0.03em; }
@@ -177,7 +177,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .pieza .contexto { color: var(--tinta-suave); }
 @media (max-width: 760px) { .indice td:first-child { white-space: normal; } }
 .pieza-cuerpo { display: block; }
-.pieza-cuerpo.con-cartel { display: grid; grid-template-columns: 1fr 170px; gap: 28px; align-items: start; }
+.pieza-cuerpo.con-cartel { display: grid; grid-template-columns: 1fr 240px; gap: 28px; align-items: start; }
 .cartel { width: 100%; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.18); display: block; }
 .escena { background: var(--acento-suave); border-radius: 8px; padding: 14px 16px; margin: 16px 0 4px; }
 .escena p { margin: 0; }
@@ -191,7 +191,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .video a:hover { opacity: .9; }
 @media (max-width: 760px) {
   .pieza-cuerpo.con-cartel { grid-template-columns: 1fr; }
-  .pieza-cuerpo.con-cartel .cartel { order: -1; width: 150px; }
+  .pieza-cuerpo.con-cartel .cartel { order: -1; width: 200px; }
 }
 </style>
 </head>
@@ -251,7 +251,8 @@ const ARTICULOS = [
         texto: "Josey Wales es un granjero de Misuri al que unos milicianos le matan a la familia durante la Guerra de Secesión. Se une a la guerrilla y, cuando la guerra acaba, se niega a rendirse y le ponen precio a su cabeza. Huye hacia el oeste y, sin quererlo, va recogiendo por el camino a otros perdedores que acaban siendo su nueva familia.",
         escena: "Cuando Josey Wales va a visitar a Diez Osos, el jefe comanche, para ofrecerle un trato: la paz o la guerra. Sin trucos, de hombre a hombre.",
         escenaImagen: "img/diez-osos.jpg",
-        escenaPie: "Diez Osos, en El fuera de la ley." },
+        escenaPie: "Diez Osos, en El fuera de la ley.",
+        video: { url: "https://www.youtube.com/watch?v=lxdMMD9GZ5E", titulo: "La escena en vídeo" } },
       { titulo: "El jinete pálido", subtitulo: "Clint Eastwood, 1985",
         imagen: "img/el-jinete-palido.jpg",
         texto: "Un predicador sin nombre llega a un campamento de buscadores de oro a los que un poderoso empresario minero quiere echar de sus tierras. Nadie sabe de dónde viene ni quién es, pero está claro que no es solo un predicador. El título viene del Apocalipsis: el jinete del caballo pálido.",
@@ -262,8 +263,7 @@ const ARTICULOS = [
         texto: "William Munny fue un pistolero despiadado, pero ahora es un granjero viudo que cría a sus hijos. Acepta un último trabajo: cobrar la recompensa por dos vaqueros que desfiguraron a una mujer. Es un western que desmonta el mito del pistolero. Ganó cuatro Óscar, entre ellos el de mejor película y mejor director.",
         escena: "La lucha final. No digo más." }
     ],
-    cierre: "Mejor verlas en orden de estreno: se ve cómo Eastwood le va dando la vuelta al western.",
-    video: { url: "https://www.youtube.com/watch?v=lxdMMD9GZ5E", texto: "Ver el vídeo en YouTube" }
+    cierre: "Mejor verlas en orden de estreno: se ve cómo Eastwood le va dando la vuelta al western."
   },
   {
     id: "3-frases-para-empezar",
