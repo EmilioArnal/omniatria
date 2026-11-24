@@ -176,6 +176,21 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .indice-caja { overflow-x: auto; }
 .pieza .contexto { color: var(--tinta-suave); }
 @media (max-width: 760px) { .indice td:first-child { white-space: normal; } }
+.pieza-cuerpo { display: block; }
+.pieza-cuerpo.con-cartel { display: grid; grid-template-columns: 1fr 170px; gap: 28px; align-items: start; }
+.cartel { width: 100%; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,.18); display: block; }
+.escena { background: var(--acento-suave); border-radius: 8px; padding: 14px 16px; margin: 16px 0 4px; }
+.escena p { margin: 0; }
+.escena-etiqueta { display: block; font-family: var(--display); font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--acento); margin-bottom: 4px; }
+.foto-escena { margin: 16px 0 0; }
+.foto-escena img { max-width: 100%; border-radius: 6px; display: block; }
+.foto-escena figcaption { font-family: var(--display); font-size: 0.85rem; color: var(--tinta-suave); margin-top: 6px; }
+.video a { display: inline-block; font-family: var(--display); font-weight: 700; text-decoration: none; background: var(--acento); color: var(--papel); padding: 10px 18px; border-radius: 999px; }
+.video a:hover { opacity: .9; }
+@media (max-width: 760px) {
+  .pieza-cuerpo.con-cartel { grid-template-columns: 1fr; }
+  .pieza-cuerpo.con-cartel .cartel { order: -1; width: 150px; }
+}
 </style>
 </head>
 <body>
@@ -222,6 +237,31 @@ const TEMAS = [
       En "Frases": titulo = autor de la frase; cita = la frase.
    ===================================================================== */
 const ARTICULOS = [
+  {
+    id: "3-westerns-de-clint-eastwood",
+    fecha: "2026-11-24",
+    categoria: "Películas",
+    titulo: "3 westerns de Clint Eastwood",
+    entradilla: "Aquí va una de las mejores trilogías del oeste, aunque nadie la bautizara así. Son películas nada sensibleras, de gente buena que lucha contra la maldad y contra las circunstancias. Las he visto muchas veces y las tengo grabadas en la cabeza. Si no las has visto, deberías.",
+    items: [
+      { titulo: "El fuera de la ley", subtitulo: "Clint Eastwood, 1976",
+        imagen: "img/el-fuera-de-la-ley.jpg",
+        texto: "Josey Wales es un granjero de Misuri al que unos milicianos le matan a la familia durante la Guerra de Secesión. Se une a la guerrilla y, cuando la guerra acaba, se niega a rendirse y le ponen precio a su cabeza. Huye hacia el oeste y, sin quererlo, va recogiendo por el camino a otros perdedores que acaban siendo su nueva familia.",
+        escena: "Cuando Josey Wales va a visitar a Diez Osos, el jefe comanche, para ofrecerle un trato: la paz o la guerra. Sin trucos, de hombre a hombre.",
+        escenaImagen: "img/diez-osos.jpg",
+        escenaPie: "Diez Osos, en El fuera de la ley." },
+      { titulo: "El jinete pálido", subtitulo: "Clint Eastwood, 1985",
+        imagen: "img/el-jinete-palido.jpg",
+        texto: "Un predicador sin nombre llega a un campamento de buscadores de oro a los que un poderoso empresario minero quiere echar de sus tierras. Nadie sabe de dónde viene ni quién es, pero está claro que no es solo un predicador. El título viene del Apocalipsis: el jinete del caballo pálido.",
+        escena: "El final, cuando el jinete se marcha y desaparece, tan misteriosamente como llegó." },
+      { titulo: "Sin perdón", subtitulo: "Clint Eastwood, 1992",
+        imagen: "img/sin-perdon.jpg",
+        texto: "William Munny fue un pistolero despiadado, pero ahora es un granjero viudo que cría a sus hijos. Acepta un último trabajo: cobrar la recompensa por dos vaqueros que desfiguraron a una mujer. Es un western que desmonta el mito del pistolero. Ganó cuatro Óscar, entre ellos el de mejor película y mejor director.",
+        escena: "La lucha final. No digo más." }
+    ],
+    cierre: "Mejor verlas en orden de estreno: se ve cómo Eastwood le va dando la vuelta al western.",
+    video: { url: "https://youtu.be/lxdMMD9GZ5E", texto: "Ver el vídeo en YouTube" }
+  },
   {
     id: "3-frases-para-empezar",
     fecha: "2026-11-24",
@@ -334,13 +374,17 @@ function articulo(a) {
   let h = '<article class="articulo"><a class="volver" href="#tema-' + slug(a.categoria) + '">← Todo en ' + esc(a.categoria) + "</a>" + meta(a) +
     "<h1>" + esc(a.titulo) + "</h1>" + (a.entradilla ? '<p class="entradilla">' + esc(a.entradilla) + "</p>" : "");
   a.items.forEach((it, n) => {
-    h += '<section class="pieza"><div class="num" aria-hidden="true">' + (n + 1) + "</div><div><h2>" + esc(it.titulo) + "</h2>" +
+    h += '<section class="pieza"><div class="num" aria-hidden="true">' + (n + 1) + '</div><div class="pieza-cuerpo' + (it.imagen ? " con-cartel" : "") + '"><div><h2>' + esc(it.titulo) + "</h2>" +
       (it.subtitulo ? '<div class="sub">' + esc(it.subtitulo) + "</div>" : "") +
       (it.contexto ? '<div class="contexto">' + parrafos(it.contexto) + "</div>" : "") +
       (it.cita ? "<blockquote>«" + esc(it.cita) + "»</blockquote>" : "") +
-      (it.texto ? parrafos(it.texto) : "") + "</div></section>";
+      (it.texto ? parrafos(it.texto) : "") +
+      (it.escena ? '<div class="escena"><span class="escena-etiqueta">La escena</span>' + parrafos(it.escena) + "</div>" : "") +
+      (it.escenaImagen ? '<figure class="foto-escena"><img src="' + esc(it.escenaImagen) + '" alt="' + esc(it.escenaPie || it.titulo) + '" loading="lazy">' + (it.escenaPie ? "<figcaption>" + esc(it.escenaPie) + "</figcaption>" : "") + "</figure>" : "") +
+      "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="Cartel de ' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
   });
   if (a.cierre) h += '<p class="cierre">' + esc(a.cierre) + "</p>";
+  if (a.video) h += '<p class="video"><a href="' + esc(a.video.url) + '" target="_blank" rel="noopener">▶ ' + esc(a.video.texto || "Ver el vídeo") + "</a></p>";
   h += '<nav class="navegacion" aria-label="Más artículos">' +
     (anterior ? '<a href="#' + esc(anterior.id) + '"><small>← Anterior</small><span>' + esc(anterior.titulo) + "</span></a>" : "") +
     (siguiente ? '<a class="sig" href="#' + esc(siguiente.id) + '"><small>Siguiente →</small><span>' + esc(siguiente.titulo) + "</span></a>" : "") +
