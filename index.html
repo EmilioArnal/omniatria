@@ -185,6 +185,8 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .foto-escena { margin: 16px 0 0; }
 .foto-escena img { max-width: 100%; border-radius: 6px; display: block; }
 .foto-escena figcaption { font-family: var(--display); font-size: 0.85rem; color: var(--tinta-suave); margin-top: 6px; }
+.video-marco { position: relative; aspect-ratio: 16 / 9; margin: 28px 0 12px; border-radius: 8px; overflow: hidden; background: #000; }
+.video-marco iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .video a { display: inline-block; font-family: var(--display); font-weight: 700; text-decoration: none; background: var(--acento); color: var(--papel); padding: 10px 18px; border-radius: 999px; }
 .video a:hover { opacity: .9; }
 @media (max-width: 760px) {
@@ -260,7 +262,7 @@ const ARTICULOS = [
         escena: "La lucha final. No digo más." }
     ],
     cierre: "Mejor verlas en orden de estreno: se ve cómo Eastwood le va dando la vuelta al western.",
-    video: { url: "https://youtu.be/lxdMMD9GZ5E", texto: "Ver el vídeo en YouTube" }
+    video: { url: "https://www.youtube.com/watch?v=lxdMMD9GZ5E", texto: "Ver el vídeo en YouTube" }
   },
   {
     id: "3-frases-para-empezar",
@@ -384,7 +386,11 @@ function articulo(a) {
       "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="Cartel de ' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
   });
   if (a.cierre) h += '<p class="cierre">' + esc(a.cierre) + "</p>";
-  if (a.video) h += '<p class="video"><a href="' + esc(a.video.url) + '" target="_blank" rel="noopener">▶ ' + esc(a.video.texto || "Ver el vídeo") + "</a></p>";
+  if (a.video) {
+    const vid = (a.video.url.match(/(?:youtu\.be\/|v=)([\w-]{11})/) || [])[1];
+    if (vid) h += '<div class="video-marco"><iframe src="https://www.youtube-nocookie.com/embed/' + vid + '" title="' + esc(a.video.texto || "Vídeo") + '" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>';
+    h += '<p class="video"><a href="' + esc(a.video.url) + '" target="_blank" rel="noopener">▶ ' + esc(a.video.texto || "Ver el vídeo en YouTube") + "</a></p>";
+  }
   h += '<nav class="navegacion" aria-label="Más artículos">' +
     (anterior ? '<a href="#' + esc(anterior.id) + '"><small>← Anterior</small><span>' + esc(anterior.titulo) + "</span></a>" : "") +
     (siguiente ? '<a class="sig" href="#' + esc(siguiente.id) + '"><small>Siguiente →</small><span>' + esc(siguiente.titulo) + "</span></a>" : "") +
