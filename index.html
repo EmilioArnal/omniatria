@@ -152,6 +152,30 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 @media (prefers-reduced-motion: no-preference) {
   .chip, .tarjeta, .navegacion a, .destacado h2 { transition: border-color .15s, background .15s, color .15s; }
 }
+
+/* Menú de temas */
+.temas { border-bottom: 1px solid var(--linea); }
+.temas .envoltorio { display: flex; gap: 6px; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+.tema-enlace { font-family: var(--display); font-weight: 500; font-size: 0.95rem; text-decoration: none; padding: 5px 12px; border-radius: 999px; border: 1px solid transparent; color: var(--tinta-suave); }
+.tema-enlace:hover { color: var(--tinta); border-color: var(--linea); }
+.tema-enlace[aria-current="page"] { background: var(--acento); color: var(--papel); }
+.tema-enlace .cuenta { font-variant-numeric: tabular-nums; opacity: 0.7; margin-left: 4px; font-size: 0.82em; }
+.tema-vacio { opacity: 0.55; }
+
+/* Página de tema e índice */
+.tema-cabecera { padding: 36px 0 8px; }
+.tema-cabecera h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; }
+.tema-cabecera p { color: var(--tinta-suave); margin: 10px 0 0; }
+.indice { width: 100%; border-collapse: collapse; margin-bottom: 64px; font-size: 1rem; }
+.indice th { text-align: left; font-family: var(--display); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tinta-suave); padding: 0 12px 10px 0; border-bottom: 2px solid var(--tinta); }
+.indice td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--linea); vertical-align: top; }
+.indice td:first-child { font-family: var(--display); font-weight: 700; white-space: nowrap; width: 1%; }
+.indice .frase { font-style: italic; }
+.indice a { color: var(--acento); font-family: var(--display); font-weight: 500; text-decoration: none; }
+.indice a:hover { text-decoration: underline; }
+.indice-caja { overflow-x: auto; }
+.pieza .contexto { color: var(--tinta-suave); }
+@media (max-width: 760px) { .indice td:first-child { white-space: normal; } }
 </style>
 </head>
 <body>
@@ -163,6 +187,8 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
   </div>
 </header>
 
+<nav class="temas" aria-label="Temas"><div class="envoltorio" id="menu-temas"></div></nav>
+
 <main class="envoltorio" id="contenido"></main>
 
 <footer class="pie">
@@ -171,87 +197,50 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 
 <script>
 /* =====================================================================
-   1) DATOS DEL SITIO: cambia aquí el nombre, el lema y tu nombre.
+   1) DATOS DEL SITIO
    ===================================================================== */
 const SITIO = {
   nombre: "Omnia Tria",
-  lema: "Cada día, tres cosas que me gustan.",
-  autor: "Tu nombre"
+  lema: "Cada día, tres cosas que me gustan."
 };
 
+/* Temas del menú, en este orden. Para el índice de cada tema:
+   "quien" es la cabecera de la primera columna (el titulo de cada pieza). */
+const TEMAS = [
+  { nombre: "Frases",     quien: "Autor" },
+  { nombre: "Películas",  quien: "Película" },
+  { nombre: "Cuadros",    quien: "Cuadro" },
+  { nombre: "Esculturas", quien: "Escultura" },
+  { nombre: "Historias",  quien: "Historia" },
+  { nombre: "Libros",     quien: "Libro" },
+  { nombre: "Autores",    quien: "Autor" }
+];
+
 /* =====================================================================
-   2) ARTÍCULOS: para publicar uno nuevo, copia la PLANTILLA de abajo,
-      pégala al principio de la lista y rellénala. El más nuevo arriba.
-
-   PLANTILLA:
-   {
-     id: "3-cosas-de-ejemplo",          // solo letras, números y guiones, sin tildes
-     fecha: "2026-11-19",               // año-mes-día
-     categoria: "Películas",            // Películas, Frases, Historias, Libros, Música...
-     titulo: "3 cosas de ejemplo",
-     entradilla: "Una o dos frases para presentar el artículo.",
-     items: [
-       { titulo: "Primera", subtitulo: "Dato breve", texto: "Por qué me gusta." },
-       { titulo: "Segunda", subtitulo: "Dato breve", texto: "Por qué me gusta." },
-       { titulo: "Tercera", subtitulo: "Dato breve", texto: "Por qué me gusta." }
-     ],
-     cierre: "Una frase final (opcional)."
-   },
-
-   En las frases, pon la cita en "cita" en vez de (o además de) "texto":
-     { titulo: "Séneca", subtitulo: "Cartas a Lucilio", cita: "La frase...", texto: "Comentario." }
+   2) ARTÍCULOS (el más nuevo arriba). Cada artículo tiene tres piezas.
+      Campos de cada pieza: titulo, subtitulo, contexto, cita, texto.
+      En "Frases": titulo = autor de la frase; cita = la frase.
    ===================================================================== */
 const ARTICULOS = [
   {
-    id: "3-inventos-por-accidente",
-    fecha: "2026-11-18",
-    categoria: "Historias",
-    titulo: "3 inventos que nacieron por accidente",
-    entradilla: "Nadie los estaba buscando. Alguien se fijó en lo que había salido mal y vio que, en realidad, había salido muy bien.",
-    items: [
-      { titulo: "La penicilina", subtitulo: "Londres, 1928",
-        texto: "Alexander Fleming volvió de vacaciones y encontró una de sus placas de cultivo contaminada por un moho. Alrededor del moho, las bacterias habían desaparecido. En lugar de tirar la placa, la estudió. Años después, la penicilina salvaría millones de vidas." },
-      { titulo: "El microondas", subtitulo: "Estados Unidos, 1945",
-        texto: "Percy Spencer trabajaba con magnetrones para radares cuando notó que la chocolatina que llevaba en el bolsillo se había derretido. Probó con maíz y salieron palomitas. Así empezó el horno que hoy está en casi todas las cocinas." },
-      { titulo: "El pósit", subtitulo: "3M, 1968 y 1974",
-        texto: "Spencer Silver buscaba un pegamento muy fuerte y le salió uno flojísimo, que pegaba y se despegaba sin dejar marca. Nadie supo qué hacer con él hasta que su compañero Art Fry lo usó para que no se le cayeran los marcapáginas del cancionero del coro." }
-    ],
-    cierre: "Los tres tienen algo en común: alguien que, ante un fallo, preguntó por qué en lugar de limpiar y seguir."
-  },
-  {
-    id: "3-frases-de-seneca",
-    fecha: "2026-11-17",
+    id: "3-frases-para-empezar",
+    fecha: "2026-11-24",
     categoria: "Frases",
-    titulo: "3 frases de Séneca para empezar la semana",
-    entradilla: "Escribió hace casi dos mil años y sigue sonando a consejo de un amigo sensato.",
+    titulo: "3 frases para empezar",
+    entradilla: "",
     items: [
-      { titulo: "Sobre el tiempo", subtitulo: "De la brevedad de la vida",
-        cita: "No es que tengamos poco tiempo, sino que perdemos mucho.",
-        texto: "La idea central de todo el libro: la vida es suficientemente larga si se usa bien." },
-      { titulo: "Sobre aplazar", subtitulo: "Cartas a Lucilio",
-        cita: "Mientras se aplaza, la vida pasa.",
-        texto: "Ideal para pegar en la nevera un lunes por la mañana." },
-      { titulo: "Sobre las preocupaciones", subtitulo: "Cartas a Lucilio",
-        cita: "Sufrimos más a menudo en la imaginación que en la realidad.",
-        texto: "La mayoría de lo que nos quita el sueño nunca llega a pasar." }
+      { titulo: "Sir Alex Ferguson", subtitulo: "Entrenador histórico del Manchester United",
+        contexto: "Un periodista le preguntó: «Sr. Ferguson, ¿cómo hace para ir renovando con éxito un mismo equipo a lo largo de los años?»",
+        cita: "Es sencillo. Solo hace falta ir expulsando a los estúpidos.",
+        texto: "Para mejorar hace falta, primero, gente motivada, que sepa lo que hace y que quiera participar en el proyecto. No dice que sea buen futbolista, ni buena o mala persona: hay que quitarse a los tontos. A lo largo del tiempo les dedicaré muchas.\n\n«Si los tontos volasen, no veríamos el cielo»." },
+      { titulo: "Guillermo Cabrera Infante", subtitulo: "Escritor",
+        cita: "Contra una ideología se puede combatir, pero no contra un sentimiento.",
+        texto: "Y así lo vemos hoy en día: sentimientos exaltados en todo y para todo." },
+      { titulo: "Woody Allen", subtitulo: "Cineasta",
+        cita: "Un psicótico es una persona que cree que dos y dos son cinco; un neurótico, alguien que sabe que dos y dos son cuatro, pero no le gusta.",
+        texto: "Soy neurótico: cada día me gustan menos cosas." }
     ],
-    cierre: "Tres frases cortas para una semana larga."
-  },
-  {
-    id: "3-peliculas-tarde-de-lluvia",
-    fecha: "2026-11-16",
-    categoria: "Películas",
-    titulo: "3 películas para una tarde de lluvia",
-    entradilla: "Manta, sofá y algo que te deje mejor de lo que estabas.",
-    items: [
-      { titulo: "Cantando bajo la lluvia", subtitulo: "Stanley Donen y Gene Kelly, 1952",
-        texto: "La transición del cine mudo al sonoro contada con números musicales que no envejecen. Y sí, tiene la escena de bailar bajo la lluvia más famosa de la historia." },
-      { titulo: "El viaje de Chihiro", subtitulo: "Hayao Miyazaki, 2001",
-        texto: "Una niña atrapada en un balneario de espíritus. Es imaginativa, rara y emocionante, y cada vez que la ves descubres un detalle nuevo en el fondo de la imagen." },
-      { titulo: "Atrapado en el tiempo", subtitulo: "Harold Ramis, 1993",
-        texto: "Un meteorólogo antipático vive el mismo día una y otra vez. Empieza como comedia y termina siendo una pequeña lección sobre cómo aprovechar cada día." }
-    ],
-    cierre: "Si solo te da tiempo a una, que sea la que menos conozcas."
+    cierre: ""
   }
 ];
 
@@ -260,7 +249,6 @@ const ARTICULOS = [
    ===================================================================== */
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 const contenido = document.getElementById("contenido");
-let filtro = "Todas";
 
 function esc(t) {
   return String(t == null ? "" : t).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
@@ -272,53 +260,83 @@ function fechaLarga(f) {
   const [a, m, d] = f.split("-").map(Number);
   return d + " de " + MESES[m - 1] + " de " + a;
 }
+function slug(t) {
+  return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 function ordenados() {
   return ARTICULOS.slice().sort((x, y) => y.fecha.localeCompare(x.fecha));
 }
+function todosLosTemas() {
+  const nombres = TEMAS.map(t => t.nombre);
+  ARTICULOS.forEach(a => { if (!nombres.includes(a.categoria)) nombres.push(a.categoria); });
+  return nombres;
+}
+function datosTema(nombre) {
+  return TEMAS.find(t => t.nombre === nombre) || { nombre, quien: "Nombre" };
+}
 function meta(a) {
-  return '<div class="meta"><span class="etiqueta">' + esc(a.categoria) + '</span><time datetime="' + esc(a.fecha) + '">' + fechaLarga(a.fecha) + "</time></div>";
+  return '<div class="meta"><a class="etiqueta" href="#tema-' + slug(a.categoria) + '" style="text-decoration:none">' + esc(a.categoria) + '</a><time datetime="' + esc(a.fecha) + '">' + fechaLarga(a.fecha) + "</time></div>";
+}
+function tarjeta(a) {
+  return '<a class="tarjeta" href="#' + esc(a.id) + '"><div class="meta"><span class="etiqueta">' + esc(a.categoria) + '</span><time>' + fechaLarga(a.fecha) + "</time></div><h3>" + esc(a.titulo) + '</h3><p class="tres">' +
+    a.items.map((it, i) => "<b>" + (i + 1) + "</b> " + esc(it.titulo)).join(" &nbsp;·&nbsp; ") + "</p></a>";
+}
+
+function pintarMenu(actual) {
+  const menu = document.getElementById("menu-temas");
+  menu.innerHTML = '<a class="tema-enlace" href="#"' + (actual === "" ? ' aria-current="page"' : "") + ">Inicio</a>" +
+    todosLosTemas().map(n => {
+      const c = ARTICULOS.filter(a => a.categoria === n).length;
+      return '<a class="tema-enlace' + (c ? "" : " tema-vacio") + '" href="#tema-' + slug(n) + '"' + (actual === slug(n) ? ' aria-current="page"' : "") + ">" + esc(n) + (c ? '<span class="cuenta">' + c + "</span>" : "") + "</a>";
+    }).join("");
 }
 
 function portada() {
-  const todos = ordenados();
-  const categorias = ["Todas", ...new Set(todos.map(a => a.categoria))];
-  const lista = filtro === "Todas" ? todos : todos.filter(a => a.categoria === filtro);
-  let h = '<div class="filtros" role="group" aria-label="Filtrar por tema">' +
-    categorias.map(c => '<button class="chip" type="button" data-cat="' + esc(c) + '" aria-pressed="' + (c === filtro) + '">' + esc(c) + "</button>").join("") +
-    "</div>";
-
-  if (!lista.length) {
-    contenido.innerHTML = h + '<p class="vacio">Todavía no hay artículos en este tema.</p>';
-  } else {
-    const [primero, ...resto] = lista;
-    h += '<a class="destacado" href="#' + esc(primero.id) + '"><div>' + meta(primero) +
-      "<h2>" + esc(primero.titulo) + '</h2><p class="entradilla">' + esc(primero.entradilla) + "</p></div>" +
-      '<ol class="trio">' + primero.items.map((it, i) =>
-        '<li><span class="num">' + (i + 1) + '</span><span class="nom">' + esc(it.titulo) + '<span class="sub">' + esc(it.subtitulo) + "</span></span></li>").join("") +
-      "</ol></a>";
-    if (resto.length) {
-      h += '<h2 class="seccion-titulo">Anteriores</h2><div class="rejilla">' +
-        resto.map(a => '<a class="tarjeta" href="#' + esc(a.id) + '">' + meta(a) + "<h3>" + esc(a.titulo) + '</h3><p class="tres">' +
-          a.items.map((it, i) => "<b>" + (i + 1) + "</b> " + esc(it.titulo)).join(" &nbsp;·&nbsp; ") + "</p></a>").join("") +
-        "</div>";
-    } else {
-      h += '<div style="height:48px"></div>';
-    }
-    contenido.innerHTML = h;
-  }
-  contenido.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => { filtro = b.dataset.cat; portada(); }));
+  const lista = ordenados();
+  pintarMenu("");
+  if (!lista.length) { contenido.innerHTML = '<p class="vacio" style="padding:40px 0">Muy pronto, el primer artículo.</p>'; return; }
+  const [primero, ...resto] = lista;
+  let h = '<a class="destacado" href="#' + esc(primero.id) + '"><div>' + '<div class="meta"><span class="etiqueta">' + esc(primero.categoria) + '</span><time>' + fechaLarga(primero.fecha) + "</time></div>" +
+    "<h2>" + esc(primero.titulo) + "</h2>" + (primero.entradilla ? '<p class="entradilla">' + esc(primero.entradilla) + "</p>" : "") + "</div>" +
+    '<ol class="trio">' + primero.items.map((it, i) =>
+      '<li><span class="num">' + (i + 1) + '</span><span class="nom">' + esc(it.titulo) + '<span class="sub">' + esc(it.cita ? "«" + it.cita + "»" : it.subtitulo) + "</span></span></li>").join("") +
+    "</ol></a>";
+  h += resto.length ? '<h2 class="seccion-titulo">Anteriores</h2><div class="rejilla">' + resto.map(tarjeta).join("") + "</div>" : '<div style="height:48px"></div>';
+  contenido.innerHTML = h;
   document.title = SITIO.nombre;
+}
+
+function paginaTema(nombre) {
+  const t = datosTema(nombre);
+  const lista = ordenados().filter(a => a.categoria === nombre);
+  pintarMenu(slug(nombre));
+  let h = '<header class="tema-cabecera"><h1>' + esc(nombre) + "</h1><p>" +
+    (lista.length ? lista.length + (lista.length === 1 ? " artículo" : " artículos") + " · " + lista.length * 3 + " piezas" : "Todavía no hay artículos en este tema.") + "</p></header>";
+  if (lista.length) {
+    h += '<h2 class="seccion-titulo">Artículos</h2><div class="rejilla">' + lista.map(tarjeta).join("") + "</div>";
+    const filas = [];
+    lista.forEach(a => a.items.forEach(it => filas.push({ it, a })));
+    filas.sort((x, y) => x.it.titulo.localeCompare(y.it.titulo, "es"));
+    const esFrases = filas.some(f => f.it.cita);
+    h += '<h2 class="seccion-titulo">Índice de ' + esc(nombre.toLowerCase()) + '</h2><div class="indice-caja"><table class="indice"><thead><tr><th scope="col">' + esc(t.quien) + "</th><th scope=\"col\">" + (esFrases ? "Frase" : "Detalle") + '</th><th scope="col">Publicada en</th></tr></thead><tbody>' +
+      filas.map(f => "<tr><td>" + esc(f.it.titulo) + "</td><td" + (f.it.cita ? ' class="frase">«' + esc(f.it.cita) + "»" : ">" + esc(f.it.subtitulo)) + '</td><td><a href="#' + esc(f.a.id) + '">' + esc(f.a.titulo) + "</a><br><small>" + fechaLarga(f.a.fecha) + "</small></td></tr>").join("") +
+      "</tbody></table></div>";
+  }
+  contenido.innerHTML = h;
+  document.title = nombre + " · " + SITIO.nombre;
 }
 
 function articulo(a) {
   const todos = ordenados();
   const i = todos.indexOf(a);
   const anterior = todos[i + 1], siguiente = todos[i - 1];
-  let h = '<article class="articulo"><a class="volver" href="#">← Todos los artículos</a>' + meta(a) +
+  pintarMenu(slug(a.categoria));
+  let h = '<article class="articulo"><a class="volver" href="#tema-' + slug(a.categoria) + '">← Todo en ' + esc(a.categoria) + "</a>" + meta(a) +
     "<h1>" + esc(a.titulo) + "</h1>" + (a.entradilla ? '<p class="entradilla">' + esc(a.entradilla) + "</p>" : "");
   a.items.forEach((it, n) => {
     h += '<section class="pieza"><div class="num" aria-hidden="true">' + (n + 1) + "</div><div><h2>" + esc(it.titulo) + "</h2>" +
       (it.subtitulo ? '<div class="sub">' + esc(it.subtitulo) + "</div>" : "") +
+      (it.contexto ? '<div class="contexto">' + parrafos(it.contexto) + "</div>" : "") +
       (it.cita ? "<blockquote>«" + esc(it.cita) + "»</blockquote>" : "") +
       (it.texto ? parrafos(it.texto) : "") + "</div></section>";
   });
@@ -334,13 +352,14 @@ function articulo(a) {
 function mostrar() {
   const id = decodeURIComponent(location.hash.slice(1));
   const a = ARTICULOS.find(x => x.id === id);
-  if (a) articulo(a); else portada();
+  const tema = id.startsWith("tema-") ? todosLosTemas().find(n => "tema-" + slug(n) === id) : null;
+  if (a) articulo(a); else if (tema) paginaTema(tema); else portada();
   window.scrollTo(0, 0);
 }
 
 document.getElementById("nombre-sitio").textContent = SITIO.nombre;
 document.getElementById("lema-sitio").textContent = SITIO.lema;
-document.getElementById("pie-texto").textContent = "© " + new Date().getFullYear() + " " + SITIO.autor + " · " + SITIO.nombre + ". Circum longe.";
+document.getElementById("pie-texto").textContent = "© " + new Date().getFullYear() + " " + SITIO.nombre + " · Circum longe.";
 window.addEventListener("hashchange", mostrar);
 mostrar();
 </script>
