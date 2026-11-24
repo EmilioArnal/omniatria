@@ -255,7 +255,8 @@ const ARTICULOS = [
       { titulo: "El jinete pálido", subtitulo: "Clint Eastwood, 1985",
         imagen: "img/el-jinete-palido.jpg",
         texto: "Un predicador sin nombre llega a un campamento de buscadores de oro a los que un poderoso empresario minero quiere echar de sus tierras. Nadie sabe de dónde viene ni quién es, pero está claro que no es solo un predicador. El título viene del Apocalipsis: el jinete del caballo pálido.",
-        escena: "El final, cuando el jinete se marcha y desaparece, tan misteriosamente como llegó." },
+        escena: "El final, cuando el jinete se marcha y desaparece, tan misteriosamente como llegó.",
+        video: { url: "https://www.youtube.com/watch?v=fsN4RcwrwiM", titulo: "La llegada", texto: "Cuando llega el jinete pálido, llega el Ángel de la Muerte." } },
       { titulo: "Sin perdón", subtitulo: "Clint Eastwood, 1992",
         imagen: "img/sin-perdon.jpg",
         texto: "William Munny fue un pistolero despiadado, pero ahora es un granjero viudo que cría a sus hijos. Acepta un último trabajo: cobrar la recompensa por dos vaqueros que desfiguraron a una mujer. Es un western que desmonta el mito del pistolero. Ganó cuatro Óscar, entre ellos el de mejor película y mejor director.",
@@ -324,6 +325,12 @@ function tarjeta(a) {
     a.items.map((it, i) => "<b>" + (i + 1) + "</b> " + esc(it.titulo)).join(" &nbsp;·&nbsp; ") + "</p></a>";
 }
 
+function videoHtml(v) {
+  const id = (v.url.match(/(?:youtu\.be\/|v=)([\w-]{11})/) || [])[1];
+  return (id ? '<div class="video-marco"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '" title="' + esc(v.titulo || v.texto || "Vídeo") + '" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe></div>' : "") +
+    '<p class="video"><a href="' + esc(v.url) + '" target="_blank" rel="noopener">▶ Ver en YouTube</a></p>';
+}
+
 function pintarMenu(actual) {
   const menu = document.getElementById("menu-temas");
   menu.innerHTML = '<a class="tema-enlace" href="#"' + (actual === "" ? ' aria-current="page"' : "") + ">Inicio</a>" +
@@ -383,6 +390,7 @@ function articulo(a) {
       (it.texto ? parrafos(it.texto) : "") +
       (it.escena ? '<div class="escena"><span class="escena-etiqueta">La escena</span>' + parrafos(it.escena) + "</div>" : "") +
       (it.escenaImagen ? '<figure class="foto-escena"><img src="' + esc(it.escenaImagen) + '" alt="' + esc(it.escenaPie || it.titulo) + '" loading="lazy">' + (it.escenaPie ? "<figcaption>" + esc(it.escenaPie) + "</figcaption>" : "") + "</figure>" : "") +
+      (it.video ? '<div class="escena"><span class="escena-etiqueta">' + esc(it.video.titulo || "Vídeo") + "</span>" + (it.video.texto ? parrafos(it.video.texto) : "") + "</div>" + videoHtml(it.video) : "") +
       "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="Cartel de ' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
   });
   if (a.cierre) h += '<p class="cierre">' + esc(a.cierre) + "</p>";
