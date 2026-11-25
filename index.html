@@ -185,6 +185,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .foto-escena { margin: 16px 0 0; }
 .foto-escena img { max-width: 100%; border-radius: 6px; display: block; }
 .foto-escena figcaption { font-family: var(--display); font-size: 0.85rem; color: var(--tinta-suave); margin-top: 6px; }
+.video-etiqueta { font-family: var(--display); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--acento); margin: 26px 0 -16px; }
 .video-marco { position: relative; aspect-ratio: 16 / 9; margin: 28px 0 12px; border-radius: 8px; overflow: hidden; background: #000; }
 .video-marco iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .video a { display: inline-block; font-family: var(--display); font-weight: 700; text-decoration: none; background: var(--acento); color: var(--papel); padding: 10px 18px; border-radius: 999px; }
@@ -230,6 +231,7 @@ const TEMAS = [
   { nombre: "Esculturas", quien: "Escultura" },
   { nombre: "Historias",  quien: "Historia" },
   { nombre: "Libros",     quien: "Libro" },
+  { nombre: "Música",     quien: "Pieza" },
   { nombre: "Autores",    quien: "Autor" }
 ];
 
@@ -239,6 +241,33 @@ const TEMAS = [
       En "Frases": titulo = autor de la frase; cita = la frase.
    ===================================================================== */
 const ARTICULOS = [
+  {
+    id: "3-versiones-de-lovers",
+    fecha: "2026-11-25",
+    categoria: "Música",
+    titulo: "3 versiones de Lovers, de Shigeru Umebayashi",
+    entradilla: "Lovers es el tema de la película La casa de las dagas voladoras (House of Flying Daggers, Zhang Yimou, 2004). Un tema épico en el que se mezclan la lucha y el amor, con una melodía portentosa que lleva implícita una esperanza.",
+    items: [
+      { titulo: "Lovers Flower Garden", subtitulo: "Instrumentos tradicionales chinos",
+        texto: "La versión más oriental: con instrumentos tradicionales chinos y, en la segunda, con el erhu, el violín chino de dos cuerdas.",
+        videos: [
+          { url: "https://www.youtube.com/watch?v=dbSkcvyTXEE", titulo: "Con instrumentos tradicionales chinos" },
+          { url: "https://www.youtube.com/watch?v=uIHNQg8xVsc", titulo: "Con erhu" }
+        ] },
+      { titulo: "Lovers, versión instrumental", subtitulo: "Violín, violonchelo y cuerdas sinfónicas",
+        texto: "Hay dos versiones: una que da todo el protagonismo al violín solista y al violonchelo, y otra con todas las cuerdas de la orquesta sinfónica.",
+        videos: [
+          { url: "https://www.youtube.com/watch?v=uIHNQg8xVsc", titulo: "Violín y violonchelo solistas" },
+          { url: "https://www.youtube.com/watch?v=4-0X5y8320g", titulo: "Con todas las cuerdas sinfónicas" }
+        ] },
+      { titulo: "Lovers (Title Song)", subtitulo: "Orquesta sinfónica y soprano",
+        texto: "La versión completa: orquesta sinfónica más la voz de soprano. En la película la canta Kathleen Battle.",
+        videos: [
+          { url: "https://www.youtube.com/watch?v=plOt3tfvigY", titulo: "Orquesta y soprano" }
+        ] }
+    ],
+    cierre: "De Shigeru Umebayashi, uno de los grandes compositores de bandas sonoras, seguiremos comentando más temas."
+  },
   {
     id: "3-westerns-de-clint-eastwood",
     fecha: "2026-11-24",
@@ -392,6 +421,7 @@ function articulo(a) {
       (it.escena ? '<div class="escena"><span class="escena-etiqueta">La escena</span>' + parrafos(it.escena) + "</div>" : "") +
       (it.escenaImagen ? '<figure class="foto-escena"><img src="' + esc(it.escenaImagen) + '" alt="' + esc(it.escenaPie || it.titulo) + '" loading="lazy">' + (it.escenaPie ? "<figcaption>" + esc(it.escenaPie) + "</figcaption>" : "") + "</figure>" : "") +
       (it.video ? '<div class="escena"><span class="escena-etiqueta">' + esc(it.video.titulo || "Vídeo") + "</span>" + (it.video.texto ? parrafos(it.video.texto) : "") + "</div>" + videoHtml(it.video) : "") +
+      (it.videos ? it.videos.map(v => '<p class="video-etiqueta">' + esc(v.titulo || "Vídeo") + "</p>" + videoHtml(v)).join("") : "") +
       "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="Cartel de ' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
   });
   if (a.cierre) h += '<p class="cierre">' + esc(a.cierre) + "</p>";
