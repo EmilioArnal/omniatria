@@ -242,6 +242,25 @@ const TEMAS = [
    ===================================================================== */
 const ARTICULOS = [
   {
+    id: "3-libros-de-umberto-eco",
+    fecha: "2026-11-26",
+    categoria: "Libros",
+    titulo: "3 libros de Umberto Eco",
+    entradilla: "Tres libros de Umberto Eco en los que plasma toda su sabiduría. No hace falta leerlos desde el principio: puedes abrirlos por cualquier página y leer sus poemas seleccionados, sus historias, mirar sus fotografías…",
+    items: [
+      { titulo: "Historia de la belleza", subtitulo: "Umberto Eco, 2004",
+        imagen: "img/eco-historia-de-la-belleza.jpg",
+        texto: "Recuerdo cuando lo compré: estaba en El Corte Inglés de Sabadell, lo vi y no pude resistirme. Fue un flechazo. Ese libro de tapa dura en tela blanca, rotulado en azul, con su magnífica sobrecubierta, sus múltiples historias y sus fotografías, magníficas.\n\nEco recorre cómo ha cambiado la idea de lo bello en el arte occidental, desde la Grecia antigua hasta hoy, con imágenes y textos de filósofos y escritores de cada época." },
+      { titulo: "Historia de la fealdad", subtitulo: "Umberto Eco, 2007",
+        imagen: "img/eco-historia-de-la-fealdad.jpg",
+        texto: "Cuando vi que publicaban más, no tardé en comprarlos. Este es la otra cara del primero: monstruos, demonios, lo grotesco, la caricatura… Un recorrido que demuestra que lo feo cambia con los tiempos tanto como lo bello." },
+      { titulo: "Historia de las tierras y los lugares legendarios", subtitulo: "Umberto Eco, 2013",
+        imagen: "img/eco-tierras-legendarias.jpg",
+        texto: "Los lugares que nunca existieron pero en los que mucha gente creyó: la Atlántida, El Dorado, el reino del Preste Juan, la isla de Utopía… Un viaje por la geografía de la imaginación." }
+    ],
+    cierre: "Tres libros perfectamente editados por Lumen. Imprescindibles, si los podéis encontrar."
+  },
+  {
     id: "3-versiones-de-lovers",
     fecha: "2026-11-25",
     categoria: "Música",
@@ -421,7 +440,7 @@ function articulo(a) {
       (it.escenaImagen ? '<figure class="foto-escena"><img src="' + esc(it.escenaImagen) + '" alt="' + esc(it.escenaPie || it.titulo) + '" loading="lazy">' + (it.escenaPie ? "<figcaption>" + esc(it.escenaPie) + "</figcaption>" : "") + "</figure>" : "") +
       (it.video ? '<div class="escena"><span class="escena-etiqueta">' + esc(it.video.titulo || "Vídeo") + "</span>" + (it.video.texto ? parrafos(it.video.texto) : "") + "</div>" + videoHtml(it.video) : "") +
       (it.videos ? it.videos.map(v => '<p class="video-etiqueta">' + esc(v.titulo || "Vídeo") + "</p>" + videoHtml(v)).join("") : "") +
-      "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="Cartel de ' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
+      "</div>" + (it.imagen ? '<img class="cartel" src="' + esc(it.imagen) + '" alt="' + esc(it.titulo) + '" loading="lazy">' : "") + "</div></section>";
   });
   if (a.cierre) h += '<p class="cierre">' + esc(a.cierre) + "</p>";
   if (a.video) {
