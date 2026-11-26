@@ -194,6 +194,24 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
   .pieza-cuerpo.con-cartel { grid-template-columns: 1fr; }
   .pieza-cuerpo.con-cartel .cartel { order: -1; width: 200px; }
 }
+/* Las tres del día */
+.con-lateral { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 40px; align-items: start; }
+.lateral { position: sticky; top: 16px; padding-top: 4px; }
+.lateral .seccion-titulo, .lateral-movil .seccion-titulo { margin-top: 32px; }
+.fotos-dia { display: grid; gap: 18px; }
+.fotos-dia figure { margin: 0; }
+.fotos-dia img { width: 100%; display: block; border-radius: 4px; box-shadow: 0 4px 14px rgba(0,0,0,.16); }
+.fotos-dia figcaption { font-family: var(--display); font-size: 0.82rem; line-height: 1.35; color: var(--tinta-suave); margin-top: 6px; }
+.fotos-dia figcaption b { display: block; color: var(--tinta); font-weight: 700; }
+.fotos-dia figcaption i { display: block; }
+.lateral-movil { display: none; }
+@media (max-width: 1000px) {
+  .con-lateral { grid-template-columns: 1fr; gap: 0; }
+  .lateral { display: none; }
+  .lateral-movil { display: block; }
+  .lateral-movil .fotos-dia { grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: start; }
+  .lateral-movil figcaption { font-size: 0.72rem; }
+}
 </style>
 </head>
 <body>
@@ -233,6 +251,13 @@ const TEMAS = [
   { nombre: "Libros",     quien: "Libro" },
   { nombre: "Música",     quien: "Pieza" },
   { nombre: "Autores",    quien: "Autor" }
+];
+
+/* Las tres del día: fotos de la columna lateral. Cambiar a diario. */
+const FOTOS_DEL_DIA = [
+  { imagen: "img/dia-1.jpg", autor: "", obra: "" },
+  { imagen: "img/dia-2.jpg", autor: "Élisabeth Vigée Le Brun", obra: "Autorretrato con sombrero de paja" },
+  { imagen: "img/dia-3.jpg", autor: "Liu Hong", obra: "" }
 ];
 
 /* =====================================================================
@@ -379,6 +404,17 @@ function videoHtml(v) {
     '<p class="video"><a href="' + esc(v.url) + '" target="_blank" rel="noopener">▶ Ver en YouTube</a></p>';
 }
 
+function fotosDelDia(clase) {
+  if (!FOTOS_DEL_DIA.length) return "";
+  return '<aside class="' + clase + '" aria-label="Las tres del día"><h2 class="seccion-titulo">Las tres del día</h2><div class="fotos-dia">' +
+    FOTOS_DEL_DIA.map(f => '<figure><a href="' + esc(f.imagen) + '" target="_blank" rel="noopener"><img src="' + esc(f.imagen) + '" alt="' + esc([f.obra, f.autor].filter(Boolean).join(", ") || "Foto del día") + '" loading="lazy"></a>' +
+      ((f.autor || f.obra) ? "<figcaption>" + (f.autor ? "<b>" + esc(f.autor) + "</b>" : "") + (f.obra ? "<i>" + esc(f.obra) + "</i>" : "") + "</figcaption>" : "") + "</figure>").join("") +
+    "</div></aside>";
+}
+function conLateral(principal) {
+  return '<div class="con-lateral"><div class="principal">' + principal + "</div>" + fotosDelDia("lateral") + "</div>";
+}
+
 function pintarMenu(actual) {
   const menu = document.getElementById("menu-temas");
   menu.innerHTML = '<a class="tema-enlace" href="#"' + (actual === "" ? ' aria-current="page"' : "") + ">Inicio</a>" +
@@ -398,8 +434,9 @@ function portada() {
     '<ol class="trio">' + primero.items.map((it, i) =>
       '<li><span class="num">' + (i + 1) + '</span><span class="nom">' + esc(it.titulo) + '<span class="sub">' + esc(it.cita ? "«" + it.cita + "»" : it.subtitulo) + "</span></span></li>").join("") +
     "</ol></a>";
+  h += fotosDelDia("lateral-movil");
   h += resto.length ? '<h2 class="seccion-titulo">Anteriores</h2><div class="rejilla">' + resto.map(tarjeta).join("") + "</div>" : '<div style="height:48px"></div>';
-  contenido.innerHTML = h;
+  contenido.innerHTML = conLateral(h);
   document.title = SITIO.nombre;
 }
 
@@ -419,7 +456,8 @@ function paginaTema(nombre) {
       filas.map(f => "<tr><td>" + esc(f.it.titulo) + "</td><td" + (f.it.cita ? ' class="frase">«' + esc(f.it.cita) + "»" : ">" + esc(f.it.subtitulo)) + '</td><td><a href="#' + esc(f.a.id) + '">' + esc(f.a.titulo) + "</a><br><small>" + fechaLarga(f.a.fecha) + "</small></td></tr>").join("") +
       "</tbody></table></div>";
   }
-  contenido.innerHTML = h;
+  h += fotosDelDia("lateral-movil");
+  contenido.innerHTML = conLateral(h);
   document.title = nombre + " · " + SITIO.nombre;
 }
 
