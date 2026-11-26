@@ -212,6 +212,10 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
   .lateral-movil .fotos-dia { grid-template-columns: repeat(3, 1fr); gap: 10px; align-items: start; }
   .lateral-movil figcaption { font-size: 0.72rem; }
 }
+.ver-galeria { display: inline-block; margin-top: 14px; font-family: var(--display); font-weight: 700; font-size: 0.9rem; color: var(--acento); text-decoration: none; }
+.ver-galeria:hover { text-decoration: underline; }
+.galeria-fotos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
+@media (max-width: 600px) { .galeria-fotos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
@@ -253,11 +257,14 @@ const TEMAS = [
   { nombre: "Autores",    quien: "Autor" }
 ];
 
-/* Las tres del día: fotos de la columna lateral. Cambiar a diario. */
-const FOTOS_DEL_DIA = [
-  { imagen: "img/dia-1.jpg", autor: "Eduard Arranz-Bravo", obra: "Magnetita" },
-  { imagen: "img/dia-2.jpg", autor: "Élisabeth Vigée Le Brun", obra: "Autorretrato" },
-  { imagen: "img/dia-3.jpg", autor: "Liu Hong", obra: "" }
+/* Las tres del día. Para cambiarlas, añade un día nuevo ARRIBA del todo.
+   El primero de la lista es el que sale en la columna; los demás pasan a la galería. */
+const FOTOS_POR_DIA = [
+  { fecha: "2026-11-26", fotos: [
+    { imagen: "img/dia/2026-11-26-1.jpg", autor: "Eduard Arranz-Bravo", obra: "Magnetita" },
+    { imagen: "img/dia/2026-11-26-2.jpg", autor: "Élisabeth Vigée Le Brun", obra: "Autorretrato" },
+    { imagen: "img/dia/2026-11-26-3.jpg", autor: "Liu Hong", obra: "" }
+  ] }
 ];
 
 /* =====================================================================
@@ -404,12 +411,24 @@ function videoHtml(v) {
     '<p class="video"><a href="' + esc(v.url) + '" target="_blank" rel="noopener">▶ Ver en YouTube</a></p>';
 }
 
+function figuraFoto(f) {
+  return '<figure><a href="' + esc(f.imagen) + '" target="_blank" rel="noopener"><img src="' + esc(f.imagen) + '" alt="' + esc([f.obra, f.autor].filter(Boolean).join(", ") || "Foto del día") + '" loading="lazy"></a>' +
+    ((f.autor || f.obra) ? "<figcaption>" + (f.autor ? "<b>" + esc(f.autor) + "</b>" : "") + (f.obra ? "<i>" + esc(f.obra) + "</i>" : "") + "</figcaption>" : "") + "</figure>";
+}
 function fotosDelDia(clase) {
-  if (!FOTOS_DEL_DIA.length) return "";
+  const hoy = FOTOS_POR_DIA[0];
+  if (!hoy) return "";
   return '<aside class="' + clase + '" aria-label="Las tres del día"><h2 class="seccion-titulo">Las tres del día</h2><div class="fotos-dia">' +
-    FOTOS_DEL_DIA.map(f => '<figure><a href="' + esc(f.imagen) + '" target="_blank" rel="noopener"><img src="' + esc(f.imagen) + '" alt="' + esc([f.obra, f.autor].filter(Boolean).join(", ") || "Foto del día") + '" loading="lazy"></a>' +
-      ((f.autor || f.obra) ? "<figcaption>" + (f.autor ? "<b>" + esc(f.autor) + "</b>" : "") + (f.obra ? "<i>" + esc(f.obra) + "</i>" : "") + "</figcaption>" : "") + "</figure>").join("") +
-    "</div></aside>";
+    hoy.fotos.map(figuraFoto).join("") + '</div><a class="ver-galeria" href="#galeria">' + (FOTOS_POR_DIA.length > 1 ? "Ver anteriores →" : "Ver galería →") + "</a></aside>";
+}
+function paginaGaleria() {
+  pintarMenu("galeria");
+  let h = '<header class="tema-cabecera"><h1>Galería</h1><p>Todas las «tres del día», de la más reciente a la más antigua.</p></header>';
+  FOTOS_POR_DIA.forEach((d, i) => {
+    h += '<section class="galeria-dia"><h2 class="seccion-titulo">' + fechaLarga(d.fecha) + (i === 0 ? " · hoy en portada" : "") + '</h2><div class="fotos-dia galeria-fotos">' + d.fotos.map(figuraFoto).join("") + "</div></section>";
+  });
+  contenido.innerHTML = h + '<div style="height:48px"></div>';
+  document.title = "Galería · " + SITIO.nombre;
 }
 function conLateral(principal) {
   return '<div class="con-lateral"><div class="principal">' + principal + "</div>" + fotosDelDia("lateral") + "</div>";
@@ -421,7 +440,8 @@ function pintarMenu(actual) {
     todosLosTemas().map(n => {
       const c = ARTICULOS.filter(a => a.categoria === n).length;
       return '<a class="tema-enlace' + (c ? "" : " tema-vacio") + '" href="#tema-' + slug(n) + '"' + (actual === slug(n) ? ' aria-current="page"' : "") + ">" + esc(n) + (c ? '<span class="cuenta">' + c + "</span>" : "") + "</a>";
-    }).join("");
+    }).join("") +
+    '<a class="tema-enlace" href="#galeria"' + (actual === "galeria" ? ' aria-current="page"' : "") + ">Galería</a>";
 }
 
 function portada() {
@@ -498,7 +518,7 @@ function mostrar() {
   const id = decodeURIComponent(location.hash.slice(1));
   const a = ARTICULOS.find(x => x.id === id);
   const tema = id.startsWith("tema-") ? todosLosTemas().find(n => "tema-" + slug(n) === id) : null;
-  if (a) articulo(a); else if (tema) paginaTema(tema); else portada();
+  if (a) articulo(a); else if (tema) paginaTema(tema); else if (id === "galeria") paginaGaleria(); else portada();
   window.scrollTo(0, 0);
 }
 
