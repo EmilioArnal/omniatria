@@ -166,6 +166,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .tema-cabecera { padding: 36px 0 8px; }
 .tema-cabecera h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; }
 .tema-cabecera p { color: var(--tinta-suave); margin: 10px 0 0; }
+.tema-cabecera .tema-descripcion { color: var(--tinta); font-size: 1.2rem; max-width: 60ch; }
 .indice { width: 100%; border-collapse: collapse; margin-bottom: 64px; font-size: 1rem; }
 .indice th { text-align: left; font-family: var(--display); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tinta-suave); padding: 0 12px 10px 0; border-bottom: 2px solid var(--tinta); }
 .indice td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--linea); vertical-align: top; }
@@ -247,7 +248,7 @@ const SITIO = {
 /* Temas del menú, en este orden. Para el índice de cada tema:
    "quien" es la cabecera de la primera columna (el titulo de cada pieza). */
 const TEMAS = [
-  { nombre: "Sinestesia", quien: "Obra" },
+  { nombre: "Sinestesia", quien: "Obra", descripcion: "Artículos que mezclan artes: pintura, música, cine, literatura… Lo que no cabe en un solo tema." },
   { nombre: "Frases",     quien: "Autor" },
   { nombre: "Películas",  quien: "Película" },
   { nombre: "Cuadros",    quien: "Cuadro" },
@@ -465,7 +466,7 @@ function paginaTema(nombre) {
   const t = datosTema(nombre);
   const lista = ordenados().filter(a => a.categoria === nombre);
   pintarMenu(slug(nombre));
-  let h = '<header class="tema-cabecera"><h1>' + esc(nombre) + "</h1><p>" +
+  let h = '<header class="tema-cabecera"><h1>' + esc(nombre) + "</h1>" + (t.descripcion ? '<p class="tema-descripcion">' + esc(t.descripcion) + "</p>" : "") + "<p>" +
     (lista.length ? lista.length + (lista.length === 1 ? " artículo" : " artículos") + " · " + lista.length * 3 + " piezas" : "Todavía no hay artículos en este tema.") + "</p></header>";
   if (lista.length) {
     h += '<h2 class="seccion-titulo">Artículos</h2><div class="rejilla">' + lista.map(tarjeta).join("") + "</div>";
