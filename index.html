@@ -240,6 +240,12 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .nota p { margin: 0 0 10px; }
 .nota .foto-escena { margin: 0; }
 @media (max-width: 600px) { .nota { grid-template-columns: 1fr; } .nota .foto-escena img { max-width: 220px; } }
+.idiomas button { display: inline-flex; align-items: center; gap: 5px; }
+.bandera { display: inline-flex; width: 18px; height: 12px; border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.18); flex: none; }
+.bandera svg { width: 100%; height: 100%; display: block; }
+html:lang(zh) body { font-family: "Source Serif 4", "Noto Serif SC", "Songti SC", "SimSun", "Microsoft YaHei", serif; }
+html:lang(ja) body { font-family: "Source Serif 4", "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "Meiryo", serif; }
+html:lang(zh) .pieza blockquote, html:lang(ja) .pieza blockquote, html:lang(zh) .cierre, html:lang(ja) .cierre { font-style: normal; }
 </style>
 </head>
 <body>
@@ -479,17 +485,32 @@ function pintarContacto() {
   const caja = document.getElementById("pie-contacto");
   if (!caja) return;
   const correo = ["info", "omniatria.com"].join("@");
-  const asunto = { es: "Desde Omnia Tria", en: "From Omnia Tria", fr: "Depuis Omnia Tria" }[idioma];
-  const texto = { es: "Contacto", en: "Contact", fr: "Contact" }[idioma];
+  const asunto = { es: "Desde Omnia Tria", en: "From Omnia Tria", fr: "Depuis Omnia Tria", zh: "来自 Omnia Tria", ja: "Omnia Triaより" }[idioma];
+  const texto = { es: "Contacto", en: "Contact", fr: "Contact", zh: "联系", ja: "お問い合わせ" }[idioma];
   caja.innerHTML = '<a class="boton-contacto" href="mailto:' + correo + "?subject=" + encodeURIComponent(asunto) + '">✉ ' + texto + '</a><span class="correo">' + correo + "</span>";
 }
+function estrella(cx, cy, r, giro) {
+  let p = [];
+  for (let k = 0; k < 10; k++) {
+    const ang = (giro || 0) - Math.PI / 2 + k * Math.PI / 5, rr = k % 2 ? r * 0.382 : r;
+    p.push((cx + rr * Math.cos(ang)).toFixed(2) + "," + (cy + rr * Math.sin(ang)).toFixed(2));
+  }
+  return '<polygon points="' + p.join(" ") + '" fill="#ffde00"/>';
+}
+const BANDERAS = {
+  es: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#c60b1e"/><rect y="5" width="30" height="10" fill="#ffc400"/></svg>',
+  en: '<svg viewBox="0 0 60 30" aria-hidden="true"><clipPath id="uk-a"><path d="M0,0v30h60V0z"/></clipPath><clipPath id="uk-b"><path d="M30,15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#uk-a)"><path d="M0,0v30h60V0z" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#uk-b)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></g></svg>',
+  fr: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="10" height="20" fill="#002395"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#ed2939"/></svg>',
+  zh: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#de2910"/>' + estrella(5, 5, 3) + estrella(10, 2, 1, 0.9) + estrella(12, 4, 1, 0.4) + estrella(12, 7, 1, 0) + estrella(10, 9, 1, -0.4) + "</svg>",
+  ja: '<svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg>'
+};
 function pintarIdiomas() {
   pintarContacto();
   document.documentElement.lang = idioma;
   const caja = document.getElementById("idiomas");
   if (!caja) return;
   caja.setAttribute("aria-label", T().idioma);
-  caja.innerHTML = IDIOMAS.map(n => '<button type="button" data-idioma="' + n + '" aria-pressed="' + (n === idioma) + '">' + n.toUpperCase() + "</button>").join("");
+  caja.innerHTML = IDIOMAS.map(n => '<button type="button" data-idioma="' + n + '" aria-pressed="' + (n === idioma) + '"><span class="bandera">' + (BANDERAS[n] || "") + "</span>" + n.toUpperCase() + "</button>").join("");
   caja.querySelectorAll("button").forEach(b => b.addEventListener("click", () => cambiarIdioma(b.dataset.idioma)));
 }
 
@@ -502,7 +523,7 @@ function parrafos(t) {
 }
 function fechaLarga(f) {
   const [a, m, d] = f.split("-").map(Number);
-  return T().fecha(d, T().meses[m - 1], a);
+  return T().fecha(d, T().meses[m - 1], a, m);
 }
 function slug(t) {
   return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
