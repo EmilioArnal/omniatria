@@ -231,6 +231,11 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .idiomas button + button { border-left: 1px solid var(--linea); }
 .idiomas button[aria-pressed="true"] { background: var(--acento); color: var(--papel); }
 .idiomas button:hover:not([aria-pressed="true"]) { color: var(--tinta); }
+.pie-contacto { margin-left: auto; display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.boton-contacto { font-family: var(--display); font-weight: 700; font-size: 0.9rem; text-decoration: none; background: var(--acento); color: var(--papel); padding: 7px 16px; border-radius: 999px; }
+.boton-contacto:hover { opacity: .9; }
+.pie-contacto .correo { font-family: var(--display); font-size: 0.9rem; color: var(--tinta-suave); user-select: all; }
+@media (max-width: 600px) { .pie-contacto { margin-left: 0; } }
 </style>
 </head>
 <body>
@@ -247,7 +252,7 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 <main class="envoltorio" id="contenido"></main>
 
 <footer class="pie">
-  <div class="envoltorio"><span id="pie-texto"></span></div>
+  <div class="envoltorio"><span id="pie-texto"></span><span id="pie-contacto" class="pie-contacto"></span></div>
 </footer>
 
 <script src="traducciones.js"></script>
@@ -441,7 +446,16 @@ function cambiarIdioma(n) {
   try { localStorage.setItem("omnia-idioma", n); } catch (e) {}
   pintarIdiomas(); mostrar();
 }
+function pintarContacto() {
+  const caja = document.getElementById("pie-contacto");
+  if (!caja) return;
+  const correo = ["info", "omniatria.com"].join("@");
+  const asunto = { es: "Desde Omnia Tria", en: "From Omnia Tria", fr: "Depuis Omnia Tria" }[idioma];
+  const texto = { es: "Contacto", en: "Contact", fr: "Contact" }[idioma];
+  caja.innerHTML = '<a class="boton-contacto" href="mailto:' + correo + "?subject=" + encodeURIComponent(asunto) + '">✉ ' + texto + '</a><span class="correo">' + correo + "</span>";
+}
 function pintarIdiomas() {
+  pintarContacto();
   document.documentElement.lang = idioma;
   const caja = document.getElementById("idiomas");
   if (!caja) return;
