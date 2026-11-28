@@ -65,6 +65,31 @@ const OBRAS_TRAD = {
 
 /* Artículos: mismo orden de piezas que en español. */
 const TRAD = {
+  "3-canciones-de-musicales": {
+    en: { titulo: "3 songs from musicals",
+          entradilla: "Today, three songs from musicals performed by great artists.",
+          items: [
+            { texto: "The first, Easy Terms, from the musical Blood Brothers, sung by Michael Ball, one of my favourite artists: a great vocal range and great performances. I'll be posting more of him over time." },
+            { subtitulo: "Rachelle Ann Go and Lea Salonga",
+              texto: "The second is a great duet by Rachelle Ann Go and Lea Salonga. Rachelle is a great singer, remembered for her part in the 25th anniversary of Miss Saigon. Lea Salonga is one of the greats: besides Miss Saigon, where she played the lead, Kim, she has been in many others, and she is remembered for her Éponine in Les Misérables.",
+              videos: [ { titulo: "Rachelle Ann Go and Lea Salonga" } ] },
+            { titulo: "Les Misérables",
+              texto: "The third is unbeatable: Philip Quast in Les Misérables." }
+          ],
+          cierre: "All three can be bought second-hand very cheaply: there's no excuse not to own them." },
+    fr: { titulo: "3 chansons de comédies musicales",
+          entradilla: "Aujourd'hui, trois chansons de comédies musicales interprétées par de grands artistes.",
+          items: [
+            { texto: "La première, Easy Terms, de la comédie musicale Blood Brothers, interprétée par Michael Ball, l'un de mes artistes préférés : une grande tessiture et de grandes interprétations. J'en publierai d'autres de lui au fil du temps." },
+            { subtitulo: "Rachelle Ann Go et Lea Salonga",
+              texto: "La deuxième est un superbe duo de Rachelle Ann Go et Lea Salonga. Rachelle est une grande chanteuse, dont on se souvient pour sa participation au 25e anniversaire de Miss Saigon. Lea Salonga est l'une des plus grandes : outre Miss Saigon, où elle tenait le rôle principal, Kim, elle a joué dans bien d'autres, et l'on se souvient de son Éponine dans Les Misérables.",
+              videos: [ { titulo: "Rachelle Ann Go et Lea Salonga" } ] },
+            { titulo: "Les Misérables",
+              texto: "La troisième est insurpassable : Philip Quast dans Les Misérables." }
+          ],
+          cierre: "Les trois s'achètent d'occasion à très bon prix : aucune excuse pour ne pas les avoir." }
+  },
+
   "el-nadador": {
     en: { titulo: "The Swimmer: a painting, a book and a film",
           entradilla: "Three ways to dive into the pool: a painting, a short story and the film that came out of it.",
