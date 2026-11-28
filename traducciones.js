@@ -76,7 +76,9 @@ const TRAD = {
             { titulo: "Les Misérables",
               texto: "The third is unbeatable: Philip Quast in Les Misérables." }
           ],
-          cierre: "All three can be bought second-hand very cheaply: there's no excuse not to own them." },
+          cierre: "All three can be bought second-hand very cheaply: there's no excuse not to own them.",
+          nota: { titulo: "Now showing", pie: "Les Misérables, Teatro Apolo, Madrid",
+                  texto: "Les Misérables is currently running in Madrid. I went to see it and it is every bit as good as the best London productions. You have to go and see it." } },
     fr: { titulo: "3 chansons de comédies musicales",
           entradilla: "Aujourd'hui, trois chansons de comédies musicales interprétées par de grands artistes.",
           items: [
@@ -87,7 +89,9 @@ const TRAD = {
             { titulo: "Les Misérables",
               texto: "La troisième est insurpassable : Philip Quast dans Les Misérables." }
           ],
-          cierre: "Les trois s'achètent d'occasion à très bon prix : aucune excuse pour ne pas les avoir." }
+          cierre: "Les trois s'achètent d'occasion à très bon prix : aucune excuse pour ne pas les avoir.",
+          nota: { titulo: "À l'affiche", pie: "Les Misérables, Teatro Apolo, Madrid",
+                  texto: "Les Misérables est actuellement à l'affiche à Madrid. Je suis allé le voir et il n'a rien à envier aux meilleures mises en scène londoniennes. Il faut aller le voir." } }
   },
 
   "el-nadador": {
