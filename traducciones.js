@@ -43,13 +43,13 @@ const UI = {
 /* Nombres de los temas y de la primera columna de cada índice. */
 const TEMAS_TRAD = {
   en: { Sinestesia: "Synaesthesia", Frases: "Quotes", "Películas": "Films", Arte: "Art", Historias: "Stories",
-        Literatura: "Literature", "Música": "Music", Series: "TV series" },
+        Literatura: "Literature", "Música": "Music", Musicales: "Musicals", Series: "TV series" },
   fr: { Sinestesia: "Synesthésie", Frases: "Citations", "Películas": "Films", Arte: "Art", Historias: "Histoires",
-        Literatura: "Littérature", "Música": "Musique", Series: "Séries" }
+        Literatura: "Littérature", "Música": "Musique", Musicales: "Comédies musicales", Series: "Séries" }
 };
 const QUIEN_TRAD = {
-  en: { Obra: "Work", Autor: "Author", "Película": "Film", Historia: "Story", Pieza: "Piece", Serie: "Series" },
-  fr: { Obra: "Œuvre", Autor: "Auteur", "Película": "Film", Historia: "Histoire", Pieza: "Morceau", Serie: "Série" }
+  en: { Obra: "Work", Autor: "Author", "Película": "Film", Historia: "Story", Pieza: "Piece", Musical: "Musical", Serie: "Series" },
+  fr: { Obra: "Œuvre", Autor: "Auteur", "Película": "Film", Historia: "Histoire", Pieza: "Morceau", Musical: "Comédie musicale", Serie: "Série" }
 };
 const DESCRIPCION_TRAD = {
   Sinestesia: {
