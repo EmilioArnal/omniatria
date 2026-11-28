@@ -176,7 +176,7 @@ const TRAD = {
   },
 
   "3-westerns-de-clint-eastwood": {
-    en: { titulo: "3 westerns by Clint Eastwood",
+    en: { titulo: "Westerns by Clint Eastwood",
           entradilla: "Here is one of the best western trilogies, even if nobody ever called it that. These are films with no sentimentality, about good people fighting evil and circumstance. I've seen them many times and they're etched in my mind. If you haven't seen them, you should.",
           items: [
             { titulo: "The Outlaw Josey Wales",
@@ -194,7 +194,7 @@ const TRAD = {
               video: { titulo: "The scene on video" } }
           ],
           cierre: "Best watched in order of release: you can see how Eastwood turns the western on its head." },
-    fr: { titulo: "3 westerns de Clint Eastwood",
+    fr: { titulo: "Westerns de Clint Eastwood",
           entradilla: "Voici l'une des meilleures trilogies de western, même si personne ne l'a jamais baptisée ainsi. Des films sans sensiblerie, sur des gens de bien qui luttent contre le mal et contre les circonstances. Je les ai vus de nombreuses fois et ils sont gravés dans ma mémoire. Si vous ne les avez pas vus, vous devriez.",
           items: [
             { titulo: "Josey Wales hors-la-loi",
