@@ -120,7 +120,7 @@ const TRAD = {
   },
 
   "3-libros-de-umberto-eco": {
-    en: { titulo: "3 books by Umberto Eco",
+    en: { titulo: "Books by Umberto Eco",
           entradilla: "Three books in which Umberto Eco poured all his learning. You don't need to read them from the start: open them at any page and read the poems he chose, the stories, look at the pictures…",
           items: [
             { titulo: "History of Beauty",
@@ -131,7 +131,7 @@ const TRAD = {
               texto: "Places that never existed but that many people believed in: Atlantis, El Dorado, the kingdom of Prester John, the island of Utopia… A journey through the geography of the imagination." }
           ],
           cierre: "Three books beautifully published by Lumen. Essential, if you can find them." },
-    fr: { titulo: "3 livres d'Umberto Eco",
+    fr: { titulo: "Livres d'Umberto Eco",
           entradilla: "Trois livres où Umberto Eco a mis tout son savoir. Inutile de les lire depuis le début : on peut les ouvrir à n'importe quelle page et lire les poèmes qu'il a choisis, ses histoires, regarder ses images…",
           items: [
             { titulo: "Histoire de la beauté",
