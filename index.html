@@ -217,6 +217,13 @@ h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; 
 .ver-galeria:hover { text-decoration: underline; }
 .galeria-fotos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; align-items: start; }
 @media (max-width: 600px) { .galeria-fotos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Visor */
+.fotos-dia img, .cartel, .foto-escena img { cursor: zoom-in; }
+.visor { position: fixed; inset: 0; z-index: 50; background: rgba(10,12,16,.92); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; gap: 12px; cursor: zoom-out; }
+.visor[hidden] { display: none; }
+.visor img { max-width: 100%; max-height: calc(100% - 60px); object-fit: contain; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,.5); cursor: default; }
+.visor-pie { color: #e8eaee; font-family: var(--display); font-size: 0.95rem; margin: 0; text-align: center; }
+.visor-cerrar { position: absolute; top: 12px; right: 16px; background: none; border: 0; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer; padding: 4px 10px; }
 </style>
 </head>
 <body>
@@ -436,7 +443,7 @@ function videoHtml(v) {
 }
 
 function figuraFoto(f) {
-  return '<figure><a href="' + esc(f.imagen) + '" target="_blank" rel="noopener"><img src="' + esc(f.imagen) + '" alt="' + esc([f.obra, f.autor].filter(Boolean).join(", ") || "Foto del día") + '" loading="lazy"></a>' +
+  return '<figure><a href="' + esc(f.imagen) + '" class="ampliable"><img src="' + esc(f.imagen) + '" alt="' + esc([f.obra, f.autor].filter(Boolean).join(", ") || "Foto del día") + '" loading="lazy"></a>' +
     ((f.autor || f.obra) ? "<figcaption>" + (f.autor ? "<b>" + esc(f.autor) + "</b>" : "") + (f.obra ? "<i>" + esc(f.obra) + "</i>" : "") + "</figcaption>" : "") + "</figure>";
 }
 function fotosDelDia(clase) {
@@ -551,6 +558,31 @@ document.getElementById("lema-sitio").textContent = SITIO.lema;
 document.getElementById("pie-texto").textContent = "© " + new Date().getFullYear() + " " + SITIO.nombre + " · Circum longe · Omnia tria perfecta sunt.";
 window.addEventListener("hashchange", mostrar);
 mostrar();
+
+/* Visor de imágenes: pulsar una foto la muestra en grande. */
+const visor = document.createElement("div");
+visor.className = "visor"; visor.hidden = true;
+visor.setAttribute("role", "dialog"); visor.setAttribute("aria-modal", "true"); visor.setAttribute("aria-label", "Imagen ampliada");
+visor.innerHTML = '<button type="button" class="visor-cerrar" aria-label="Cerrar">×</button><img alt=""><p class="visor-pie"></p>';
+document.body.appendChild(visor);
+function abrirVisor(src, pie) {
+  visor.querySelector("img").src = src;
+  visor.querySelector("img").alt = pie || "";
+  visor.querySelector(".visor-pie").textContent = pie || "";
+  visor.hidden = false; document.body.style.overflow = "hidden";
+  visor.querySelector(".visor-cerrar").focus();
+}
+function cerrarVisor() { visor.hidden = true; document.body.style.overflow = ""; }
+visor.addEventListener("click", e => { if (e.target !== visor.querySelector("img")) cerrarVisor(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !visor.hidden) cerrarVisor(); });
+document.addEventListener("click", e => {
+  const img = e.target.closest(".fotos-dia img, .cartel, .foto-escena img");
+  if (!img) return;
+  e.preventDefault();
+  const fig = img.closest("figure");
+  const pie = fig && fig.querySelector("figcaption") ? fig.querySelector("figcaption").textContent.trim() : img.alt;
+  abrirVisor(img.currentSrc || img.src, pie);
+});
 
 /* Estadísticas de visitas (GoatCounter): cuenta cada artículo y cada tema por separado. */
 function contarVisita() {
